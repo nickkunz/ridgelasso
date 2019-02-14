@@ -1,6 +1,6 @@
 ## title: linear regularization
 ## by: nick kunz
-## date: feb 13, 2019
+## date: 2/14/19
 
 ## load libraries
 library(ISLR)  # data
@@ -67,15 +67,6 @@ predict(ridge_out,
         s = optimal_lambda,  # lambda
         type = "coefficients")[1:20,]
 
-## visualize refit ridge regression coefficients
-plot(ridge_out)
-
-## lasso regression training
-lasso_model = glmnet(x[train ,],
-                     y[train],
-                     alpha = 1,  # 0 = ridge, 1 = lasso
-                     lambda = lambda)
-
 ## random number
 set.seed (1)
 
@@ -109,6 +100,3 @@ lasso_out = glmnet(x = x,
 predict(lasso_out,
         s = optimal_lambda,
         type = "coefficients")[1:20,]
-
-## visualize refit lasso coefficients
-plot(lasso_out)

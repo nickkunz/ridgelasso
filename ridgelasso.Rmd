@@ -1,7 +1,7 @@
 ---
-html_document: output: rmarkdown::github_document
+html_document: html
 author: "Nick Kunz"
-date: "2/5/2019"
+date: "Feb 14, 2019"
 title: 'Linear Regularization: Ridge & Lasso Regression'
 ---
 
@@ -207,6 +207,21 @@ ridge_model = glmnet(x[train,],
 ```
 <br>
 
+<h4>Visualize Coefficients</h4>
+
+To help better interpret the Ridge Regression results, we plot the coefficients. In this example, we exhibit three different ways of viewing them; by log-lambda, l1 norm, and by fractional deviance. 
+
+```{r}
+## visualize ridge regression coefficients by log-lambda
+plot(ridge_model, xvar = "lambda")
+
+## visualize ridge regression coefficients by l1 norm
+plot(ridge_model, xvar = "norm")
+
+## visualize ridge regression coefficients by fraction of deviance
+plot(ridge_model, xvar = "dev")
+```
+
 <h4>Prediction</h4>
 
 After we trained the model, we then utilize it for making predictions on the test set of data. Note that the 's = λ' argument specifies the tuning parameter value for λ, which is chosen as a prior step. In this case, we have chosen λ = 75.
@@ -299,7 +314,7 @@ ridge_predict_optimal = predict(ridge_model,
 Next, we evaulate the model's performance with the optimal λ by calculating the Test MSE.
 
 ```{r}
-## Test MSE, λ = optimal
+## test MSE, λ = optimal
 round(mean((ridge_predict_optimal - y.test)^2))
 ```
 <br>
@@ -321,15 +336,6 @@ predict(ridge_out,
 ```
 <br>
 
-<h4>Visualize Refit Coefficients</h4>
-
-To help better interpret our Ridge Regression results after refitting, we plot the coefficients.
-
-```{r}
-## visualize refit ridge regression coefficients
-plot(ridge_out)
-```
-
 ## Prediction with Lasso Regression
 
 <h4>Training</h4>
@@ -344,6 +350,21 @@ lasso_model = glmnet(x[train ,],
                      lambda = lambda)
 ```
 <br>
+
+<h4>Visualize Coefficients</h4>
+
+To help better interpret the LASSO Regression results, we plot the coefficients. In this example, we exhibit three different ways of viewing them; by log-lambda, l1 norm, and by fractional deviance. 
+
+```{r}
+## visualize lasso regression coefficients by log-lambda
+plot(lasso_model, xvar = "lambda")
+
+## visualize lasso regression coefficients by l1 norm
+plot(lasso_model, xvar = "norm")
+
+## visualize lasso regression coefficients by fraction of deviance
+plot(lasso_model, xvar = "dev")
+```
 
 <h4>Cross-Validation</h4>
 
@@ -404,23 +425,12 @@ As a final step, we refit the LASSO Regression model on the entire data set util
 ## refit lasso regression 
 lasso_out = glmnet(x = x,
                    y = y,
-                   alpha = 1,  # 0 = ridge, 1 = lasso
-                   lambda = lambda)
+                   alpha = 1)  # 0 = ridge, 1 = lasso
 
 ## refit lasso coefficients
 predict(lasso_out,
         s = optimal_lambda,
         type = "coefficients")[1:20,]
-```
-<br>
-
-<h4>Visualize Refit Coefficients</h4>
-
-To help better interpret our LASSO Regression results after refitting, we plot the coefficients.
-
-```{r}
-## visualize refit lasso coefficients
-plot(lasso_out)
 ```
 <br>
 
