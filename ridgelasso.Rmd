@@ -422,6 +422,7 @@ To help better interpret our LASSO Regression results after refitting, we plot t
 ## visualize refit lasso coefficients
 plot(lasso_out)
 ```
+<br>
 
 ## Conclusion
 
